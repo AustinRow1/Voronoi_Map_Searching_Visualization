@@ -27,6 +27,7 @@ int** voronoi_map_gen(int row, int col){
 			else	grid[i][j] = -1; //-1 means not set yet.
 		}
 	}
+	int** copy = copy_map(grid, row, col);	
 	
 	//Randomly place sites/centers for voronoi map generation.
 	for(placed_centers = 0; placed_centers < num_centers;){
@@ -35,24 +36,25 @@ int** voronoi_map_gen(int row, int col){
 	
 		//Place center only if there is nothing already taking up randomly generated position.
 		if(grid[center_r][center_c] == -1){
-			if(placed_centers < num_centers/2)  grid[center_r][center_c] = -2;
-			else  				    grid[center_r][center_c] = -3;
+			if(placed_centers < num_centers/3){  
+				grid[center_r][center_c] = -2;
+				copy[center_r][center_c] = -2;
+			}
+			else{
+				grid[center_r][center_c] = -3;
+				copy[center_r][center_c] = -3;
+			}
 			placed_centers++;
 		}
 	}
-	
-	/* There was an issue where a few positions would not turn to walls in the  bottom right corner even if they should have.
-	 * This fixes that by putting a wall site/center in the bottom right. While not necessary for the program to work properly,
-	 * I like this better than occassionally having a small inaccessible patch of open spaces in the corner where it shouldn't be.*/
-	grid[row-3][col-3] = -2;    
 	
 	//Set each position in the map to either a wall or not a wall depending on what type of site/center it is closest to.
 	for(int i = 2; i < row-2; i++){
 		for(int j = 2; j < col-2; j++){	
 			if(grid[i][j] != -2 && grid[i][j] != -3){
 				closest_val = closest_center(grid,row,col,i,j); 
-				if(closest_val == -3)  grid[i][j] = 0;
-				else		       grid[i][j] = 7;
+				if(closest_val == -3)  copy[i][j] = 0;
+				else		       copy[i][j] = 7;
 				//getchar(); //for demonstrating map gen slowly (waits to put next piece in place until a key is pressed)
 			}
 			
@@ -61,9 +63,9 @@ int** voronoi_map_gen(int row, int col){
 			move(0,0);
 			for(int x = 0; x < row; x++){
 				for(int y = 0; y < col; y++){
-					if(grid[x][y] == 7) printw("#");
-					else if(grid[x][y] == -2) printw("W");
-					else if(grid[x][y] == -3) printw("N");
+					if(copy[x][y] == 7) printw("#");
+					else if(copy[x][y] == -2) printw("W");
+					else if(copy[x][y] == -3) printw("N");
 					else printw(" ");
 				}
 			}
@@ -75,8 +77,8 @@ int** voronoi_map_gen(int row, int col){
 
 	for(int i = 2; i < row-2; i++){
 		for(int j = 2; j < col-2; j++){
-			if(grid[i][j] == -2) grid[i][j] = 7;
-			else if(grid[i][j] == -3) grid[i][j] = 0;				
+			if(grid[i][j] == -2) copy[i][j] = 7;
+			else if(grid[i][j] == -3) copy[i][j] = 0;				
 		}
 	}
 	
@@ -85,15 +87,15 @@ int** voronoi_map_gen(int row, int col){
 	move(0,0);
 	for(int x = 0; x < row; x++){
 		for(int y = 0; y < col; y++){
-			if(grid[x][y] == 7) printw("#");
+			if(copy[x][y] == 7) printw("#");
 			else printw(" ");
 		}
 	}
 	refresh();
 	usleep(5000);	
 	#endif
-
-	return grid;
+	delete_map(grid, row, col);
+	return copy;
 }
 
 /**********************************************************************
