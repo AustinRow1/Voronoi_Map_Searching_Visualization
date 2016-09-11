@@ -11,9 +11,11 @@
 
 #include <ncurses.h>
 #include <deque>
+#include "./map.h"
 
 using namespace std;
 
-int breadth_first_search(int**, int, int);
-int depth_first_search(int**, int, int);
+int breadth_first_search(Map);
+int depth_first_search(Map);
+void find_start(Map, int&, int&);
 #endif

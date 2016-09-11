@@ -4,10 +4,10 @@ CC = g++
 
 all: $(full_visualization) $(search_only_visualization)
 
-$(full_visualization): main.cpp voronoi.cpp searching.cpp interface.cpp
-	$(CC) main.cpp voronoi.cpp searching.cpp interface.cpp -lncurses -o $(full_visualization)
+$(full_visualization): main.cpp voronoi.cpp searching.cpp interface.cpp map.cpp
+	$(CC) main.cpp voronoi.cpp searching.cpp interface.cpp map.cpp -lncurses -o $(full_visualization)
 
-$(search_only_visualization): main.cpp voronoi.cpp searching.cpp interface.cpp
-	$(CC) main.cpp voronoi.cpp searching.cpp interface.cpp -lncurses -o $(search_only_visualization) -D skip_map_gen
+$(search_only_visualization): main.cpp voronoi.cpp searching.cpp interface.cpp map.cpp
+	$(CC) main.cpp voronoi.cpp searching.cpp interface.cpp map.cpp -lncurses -o $(search_only_visualization) -D skip_map_gen
 clean:
 	rm *.out

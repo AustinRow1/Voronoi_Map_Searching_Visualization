@@ -13,14 +13,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>	//usleep()
+#include "./map.h"
 
 using namespace std;
 
-void place_ending(int**, int, int);
-void place_start(int**, int, int);
+void place_ending(Map&);
+void place_start(Map&);
 void print_header(WINDOW*, char*);
 int get_search_type(WINDOW*);
-void print_map(int**, int, int);
+void print_map(Map);
 void print_space(int);
 void draw_border(WINDOW*, int);
 #endif

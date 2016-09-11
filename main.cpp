@@ -15,6 +15,7 @@
 #include "./voronoi.h"
 #include "./searching.h"
 #include "./interface.h"
+#include "./map.h"
 
 #include <iostream>
 
@@ -51,31 +52,31 @@ int main(){
 	mvwin(stdscr, header_height, 0);	
 	
 	//Program Loop
-	int** grid, **copy;
+	Map map(row, col);
 	int search_type;
 	do{
+		map.erase();
 		print_header(header, const_cast<char*>("Voronoi Map Generation"));
-		grid = voronoi_map_gen(row,col);
-		
+		map.voronoi_generate();
 		#ifndef skip_map_gen	
 		usleep(2000000);
 		#endif
-
 		do{
-			copy = copy_map(grid, row, col); 
-			place_ending(copy, row, col);
-			place_start(copy, row, col);
-			print_map(copy, row, col);
+			map.clear();
+			place_ending(map);
+			place_start(map);
+			print_map(map);
+			
 			search_type = get_search_type(header);
 			if(search_type){
 			       	print_header(header, const_cast<char*>("Breadth-First Search"));
 				usleep(1000000);
-				success = breadth_first_search(copy, row, col);
+				success = breadth_first_search(map);
 			}
 			else{
 			       	print_header(header, const_cast<char*>("Depth-First Search"));
 				usleep(1000000);
-				success = depth_first_search(copy, row, col);
+				success = depth_first_search(map);
 			}
 		
 			attron(COLOR_PAIR(6)| A_BOLD);
@@ -84,14 +85,13 @@ int main(){
 			usleep(1500000);
 			print_header(header, const_cast<char*>("0-Quit, 1-New Map, 2-Same Map"));
 			attroff(COLOR_PAIR(6) | A_BOLD);
-			
 			answer = (char)getch();
-			delete_map(copy, row, col);
 		}while(answer > '1');
-		delete_map(grid, row, col);
 	}while(answer > '0');
 	delwin(stdscr);	
 	delwin(header);
 	endwin();
 	return 0;
 }
+
+

@@ -52,31 +52,31 @@ void print_header(WINDOW* header, char* title){
 }
 
 /**********************************************************************
-* Function:    	void place_ending(int**, int, int); 
+* Function:    	void place_ending(Map); 
 * Description:	Places the end position in a valid spot on the map.		
 **********************************************************************/
-void place_ending(int** grid, int row, int col){
+void place_ending(Map& map){
 	int end_y, end_x;
 	do{
-		end_y = rand() % (row-2)+2;
-		end_x = rand() % (col-2)+2;
-	}while(grid[end_y][end_x] == 7);
+		end_y = rand() % (map.rows()-map.border_size()) + map.border_size();
+		end_x = rand() % (map.columns()-map.border_size()) + map.border_size();
+	}while(map[end_y][end_x] == 7);
 
-	grid[end_y][end_x] = 9;
+	map[end_y][end_x] = 9;
 }
 
 /**********************************************************************
-* Function:    	void place_start(int**, int, int); 
+* Function:    	void place_start(Map); 
 * Description:	Places the start position in a valid spot on the map.		
 **********************************************************************/
-void place_start(int** grid, int row, int col){
+void place_start(Map& map){
 	int start_y, start_x;
 	do{
-		start_y = rand() % (row-2)+2;
-		start_x = rand() % (col-2)+2;
-	}while(grid[start_y][start_x] == 7);
+		start_y = rand() % (map.rows()-map.border_size()) + map.border_size();
+		start_x = rand() % (map.columns()-map.border_size()) + map.border_size();
+	}while(map[start_y][start_x] == 7);
 
-	grid[start_y][start_x] = 8;
+	map[start_y][start_x] = 8;
 }
 
 /**********************************************************************
@@ -110,16 +110,16 @@ void draw_border(WINDOW* screen, int color_scheme){
 * Function:     void print_map(int**, int, int); 
 * Description:	Prints the map with appropriate coloring.
 **********************************************************************/
-void print_map(int** grid, int row, int col){
+void print_map(Map map){
 	move(0,0);
-	for(int i = 0; i < row; i++){
-		for(int j = 0; j < col; j++){
-			if(grid[i][j] == 9) 	 print_space(1);	//indicates end position
-			else if(grid[i][j] == 8) print_space(2);	//indicates start position
-			else if(grid[i][j] == 1) print_space(3);	//indicates position currently in deque waiting to be checked by search algorithm
-			else if(grid[i][j] == 2) print_space(4);	//indicates position that has been checked by searching algorithm	
-			else if(grid[i][j] == 7) print_space(5);	//indicates wall
-			else			 printw(" ");
+	for(int i = 0; i < map.rows(); i++){
+		for(int j = 0; j < map.columns(); j++){
+			if(map[i][j] == 9) 	print_space(1);	//indicates end position
+			else if(map[i][j] == 8) print_space(2);	//indicates start position
+			else if(map[i][j] == 1) print_space(3);	//indicates position currently in deque waiting to be checked by search algorithm
+			else if(map[i][j] == 2) print_space(4);	//indicates position that has been checked by searching algorithm	
+			else if(map[i][j] == 7) print_space(5);	//indicates wall
+			else			printw(" ");
 		}
 	}
 	refresh();
