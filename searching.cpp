@@ -28,7 +28,7 @@ int breadth_first_search(Map map){
 	deque<int> r_pos;
 	deque<int> c_pos;
 
-	int cur_r, cur_c;
+	int cur_r, cur_c, start_direction = rand() % 4, start_check_x, start_check_y;
 	find_start(map, cur_r, cur_c);
 
 	do{

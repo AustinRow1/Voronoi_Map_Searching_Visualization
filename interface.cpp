@@ -28,6 +28,9 @@ int get_search_type(WINDOW* header){
 		else
 			break;
 	}
+	if(choice) print_header(header, const_cast<char*>("Breadth-First Search"));
+	else		print_header(header, const_cast<char*>("Depth-First Search"));
+	usleep(1000000);
 	return choice-48;
 }
 
@@ -114,11 +117,11 @@ void print_map(Map map){
 	move(0,0);
 	for(int i = 0; i < map.rows(); i++){
 		for(int j = 0; j < map.columns(); j++){
-			if(map[i][j] == 9) 	print_space(1);	//indicates end position
-			else if(map[i][j] == 8) print_space(2);	//indicates start position
-			else if(map[i][j] == 1) print_space(3);	//indicates position currently in deque waiting to be checked by search algorithm
-			else if(map[i][j] == 2) print_space(4);	//indicates position that has been checked by searching algorithm	
-			else if(map[i][j] == 7) print_space(5);	//indicates wall
+			if(map[i][j] == 9) 	color_print('E', 1);	//indicates end position
+			else if(map[i][j] == 8) color_print('S', 2);	//indicates start position
+			else if(map[i][j] == 1) color_print(' ', 3);	//indicates position currently in deque waiting to be checked by search algorithm
+			else if(map[i][j] == 2) color_print(' ', 4);	//indicates position that has been checked by searching algorithm	
+			else if(map[i][j] == 7) color_print(' ', 5);	//indicates wall
 			else			printw(" ");
 		}
 	}
@@ -129,8 +132,8 @@ void print_map(Map map){
 * Function:     void print_space(int); 
 * Description:	Prints space with indicated color pair.
 **********************************************************************/
-void print_space(int color){
-	attron(COLOR_PAIR(color));
-	printw(" ");
-	attroff(COLOR_PAIR(color));
+void color_print(char letter, int color){
+	attron(COLOR_PAIR(color) | A_BOLD);
+	printw("%c", letter);
+	attroff(COLOR_PAIR(color) | A_BOLD);
 }

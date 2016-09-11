@@ -22,6 +22,6 @@ void place_start(Map&);
 void print_header(WINDOW*, char*);
 int get_search_type(WINDOW*);
 void print_map(Map);
-void print_space(int);
+void color_print(char, int);
 void draw_border(WINDOW*, int);
 #endif
