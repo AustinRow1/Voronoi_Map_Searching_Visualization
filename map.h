@@ -1,3 +1,9 @@
+/**********************************************************************
+* Filename: 	map.h
+* Author:   	Austin Row
+* Date:     	9/10/2016
+* Description:	Header file that contains Map class definition. 
+**********************************************************************/
 #ifndef MAP_H
 #define MAP_H
 
@@ -14,31 +20,24 @@ using namespace std;
 class Map{
 	int** map;
 	int row, col, border_thickness;
-
-	int closest_center(int**, int, int);
-	int** clone(int**);
-	void delete_clone(int**);
+	int closest_center(Map, int, int);
 
 	public:
 		Map();
-		Map(int, int);
+		Map(int, int, int);
 		Map(const Map &);
-		void voronoi_generate();
+		void clone(int**, int, int, int);
 		void resize(int, int);
+		void resize_border(int);
 		int rows() const;
 		int columns() const;
 		int border_size() const;
 		int at(int, int) const;
-		void resize_border(int);
 		void clear();
 		void erase();
+		void voronoi_generate();
 		void operator=(const Map &);
 		int* operator[](int);
 		~Map();
 };
-/*
-class Map_Proxy{
-	
-}
-*/
 #endif

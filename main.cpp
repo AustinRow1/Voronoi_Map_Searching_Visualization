@@ -12,7 +12,7 @@
 **********************************************************************************/
 #include <ncurses.h>
 #include <time.h>
-#include "./voronoi.h"
+//#include "./voronoi.h"
 #include "./searching.h"
 #include "./interface.h"
 #include "./map.h"
@@ -52,10 +52,9 @@ int main(){
 	mvwin(stdscr, header_height, 0);	
 	
 	//Program Loop
-	Map map(row, col);
+	Map map(row, col, 1);
 	int search_type;
 	do{
-		map.erase();
 		print_header(header, const_cast<char*>("Voronoi Map Generation"));
 		map.voronoi_generate();
 		#ifndef skip_map_gen	

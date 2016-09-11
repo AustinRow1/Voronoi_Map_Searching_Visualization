@@ -107,7 +107,7 @@ void draw_border(WINDOW* screen, int color_scheme){
 }
 
 /**********************************************************************
-* Function:     void print_map(int**, int, int); 
+* Function:     void print_map(Map); 
 * Description:	Prints the map with appropriate coloring.
 **********************************************************************/
 void print_map(Map map){

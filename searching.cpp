@@ -115,6 +115,10 @@ int depth_first_search(Map map){
 	else return 0;
 }
 
+/**********************************************************************
+* Function:    	void find_start(Map, int&, int&); 
+* Description: 	Finds start position on map.	
+**********************************************************************/
 void find_start(Map map, int& cur_r, int& cur_c){
 	for(int i = map.border_size(); i < map.rows()-map.border_size(); i++){
 		for(int j = map.border_size(); j < map.columns()-map.border_size(); j++){
